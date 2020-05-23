@@ -1,0 +1,14 @@
+node_modules
+/lib
+
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# WebStorm #
+######################
+.idea/
