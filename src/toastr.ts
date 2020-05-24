@@ -23,7 +23,6 @@ interface ToastrSettings {
     escapeHtml: boolean;
     extendedTimeOut: number;
     hideDuration: number;
-    hideEasing: string;
     hideMethod: string;
     iconClass: string;
     iconClasses: ToastrIconClasses;
@@ -31,15 +30,14 @@ interface ToastrSettings {
     newestOnTop: boolean;
     onClick: () => void;
     onCloseClick: (event: Event) => void;
-    onHidden: () => {};
-    onShown: () => {};
+    onHidden: () => void;
+    onShown: () => void;
     positionClass: string;
     preventDuplicates: boolean;
     progressBar: boolean;
     progressClass: string;
     rtl: boolean;
     showDuration: number;
-    showEasing: string;
     showMethod: string;
     target: string;
     timeOut: number;
@@ -55,7 +53,7 @@ interface ToastrCallback {
     toastId: number;
     state: 'visible' | 'hidden';
     startTime: Date;
-    options: ToastrSettings;
+    options: ToastrSettings & { [key: string]: any };
     map: any;
 }
 
@@ -65,7 +63,7 @@ function isNotNullOrUndefined<T>(value: T | null | undefined): value is T {
     return value != null && typeof value !== 'undefined';
 }
 
-function isFunction(functionToCheck: unknown) {
+function isFunction(functionToCheck: unknown): functionToCheck is () => any {
     return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
 }
 
@@ -74,7 +72,7 @@ export class Toastr {
 
     private static containerEl: HTMLElement;
 
-    private static options: ToastrSettings;
+    public static options: ToastrOptions;
 
     private static previousToast: string | undefined;
     private static listener: (eventArgs: ToastrCallback) => void;
@@ -89,7 +87,7 @@ export class Toastr {
     /**
      * Get default settings from toastrjs
      */
-    public static getDefaults(): ToastrOptions {
+    public static getDefaults(): ToastrSettings {
         return {
             closeButton: false,
             closeClass: 'toast-close-button',
@@ -116,8 +114,8 @@ export class Toastr {
             newestOnTop: true,
             onClick: () => {},
             onCloseClick: (event: Event) => {},
-            onHidden: undefined,
-            onShown: undefined,
+            onHidden: () => {},
+            onShown: () => {},
             positionClass: 'toast-top-right',
             preventDuplicates: false,
             progressBar: false,
@@ -133,7 +131,7 @@ export class Toastr {
         };
     }
 
-    public static clear(toastElement: HTMLElement, clearOptions: ToastrClearOptions) {
+    public static clear(toastElement?: HTMLElement, clearOptions?: ToastrClearOptions) {
         const options = Toastr.getOptions();
         if (!Toastr.containerEl) {
             Toastr.getContainer(options, false);
@@ -155,11 +153,25 @@ export class Toastr {
         }
     }
 
-    private static fadeOut(toastElement: HTMLElement, toastr: ToastrOptions) {
+    private static fadeOut(toastElement: HTMLElement, options: ToastrOptions) {
         toastElement.classList.add('animate__animated', 'animate__fadeOut');
-        if (isNotNullOrUndefined(toastr.hideDuration) && !isNaN(toastr.hideDuration)) {
-            toastElement.style.setProperty('--animate-duration', toastr.hideDuration / 1000 + 's');
+
+        const onAnimationEnd = (ev: { type: string }) => {
+            if (isFunction(options.complete)) {
+                options.complete();
+            }
+
+            toastElement.removeEventListener(ev.type, onAnimationEnd);
+        };
+
+        if (isNotNullOrUndefined(options.hideDuration) && !isNaN(options.hideDuration)) {
+            if (options.hideDuration === 0) {
+                onAnimationEnd({ type: 'animationend' });
+                return;
+            }
+            toastElement.style.setProperty('--animate-duration', options.hideDuration / 1000 + 's');
         }
+        toastElement.addEventListener('animationend', onAnimationEnd);
     }
 
     /**
@@ -169,12 +181,9 @@ export class Toastr {
         if (!Toastr.containerEl) {
             Toastr.containerEl = Toastr.getContainer();
         }
-        if (toastElement.offsetWidth > 0 && toastElement.offsetHeight > 0) {
-            return;
-        }
 
         toastElement.parentNode?.removeChild(toastElement);
-        if (Toastr.containerEl.children.length === 0) {
+        if (Toastr.containerEl?.children.length === 0) {
             Toastr.containerEl.parentElement?.removeChild(Toastr.containerEl);
             Toastr.previousToast = undefined;
         }
@@ -183,13 +192,12 @@ export class Toastr {
     /**
      * Clear toastr element
      */
-    private static clearToast(toastElement: HTMLElement, options: ToastrSettings, clearOptions?: ToastrClearOptions) {
+    private static clearToast(toastElement: HTMLElement | undefined, options: ToastrSettings, clearOptions?: ToastrClearOptions) {
         const force = clearOptions && clearOptions.force ? clearOptions.force : false;
         if (toastElement && (force || toastElement !== toastElement.ownerDocument?.activeElement)) {
             if (options.hideMethod !== 'none') {
                 Toastr.fadeOut(toastElement, {
                     hideDuration: options.hideDuration,
-                    hideEasing: options.hideEasing,
                     hideMethod: options.hideMethod,
                     complete: () => {
                         Toastr.removeToast(toastElement);
@@ -219,19 +227,6 @@ export class Toastr {
         }
     }
 
-    /**
-     * Show warning message
-     */
-    public static warning(message: string, title: string, optionsOverride: ToastrSettings) {
-        return Toastr.notify({
-            type: Toastr.toastType.warning,
-            iconClass: (Toastr.getOptions().iconClasses as ToastrIconClasses).warning,
-            message,
-            optionsOverride,
-            title,
-        });
-    }
-
     public static remove(toastElement: HTMLElement) {
         const options = Toastr.getOptions();
         if (!Toastr.containerEl) {
@@ -241,7 +236,7 @@ export class Toastr {
             Toastr.removeToast(toastElement);
             return;
         }
-        if (Toastr.containerEl.children.length) {
+        if (Toastr.containerEl?.children.length) {
             Toastr.removeElement(Toastr.containerEl);
         }
     }
@@ -256,9 +251,16 @@ export class Toastr {
     }
 
     /**
+     * Register a callback function
+     */
+    public static subscribe(callback: (eventArgs: ToastrCallback) => void) {
+        Toastr.listener = callback;
+    }
+
+    /**
      * Show info message
      */
-    public static info(message: string, title: string, optionsOverride: ToastrSettings) {
+    public static info(message?: string, title?: string, optionsOverride?: ToastrOptions & { [key: string]: any }) {
         return Toastr.notify({
             type: Toastr.toastType.info,
             iconClass: (Toastr.getOptions().iconClasses as ToastrIconClasses).info,
@@ -269,16 +271,9 @@ export class Toastr {
     }
 
     /**
-     * Register a callback function
-     */
-    public static subscribe(callback: (eventArgs: ToastrCallback) => void) {
-        Toastr.listener = callback;
-    }
-
-    /**
      * Show success message
      */
-    public static success(message: string, title: string, optionsOverride: ToastrSettings) {
+    public static success(message?: string, title?: string, optionsOverride?: ToastrOptions & { [key: string]: any }) {
         return Toastr.notify({
             type: Toastr.toastType.success,
             iconClass: (Toastr.getOptions().iconClasses as ToastrIconClasses).success,
@@ -289,9 +284,22 @@ export class Toastr {
     }
 
     /**
+     * Show warning message
+     */
+    public static warning(message?: string, title?: string, optionsOverride?: ToastrOptions & { [key: string]: any }) {
+        return Toastr.notify({
+            type: Toastr.toastType.warning,
+            iconClass: (Toastr.getOptions().iconClasses as ToastrIconClasses).warning,
+            message,
+            optionsOverride,
+            title,
+        });
+    }
+
+    /**
      * Shows an error message
      */
-    public static error(message: string, title: string, optionsOverride: ToastrSettings) {
+    public static error(message?: string, title?: string, optionsOverride?: ToastrOptions & { [key: string]: any }) {
         return Toastr.notify({
             type: Toastr.toastType.error,
             iconClass: (Toastr.getOptions().iconClasses as ToastrIconClasses).error,
@@ -429,7 +437,6 @@ export class Toastr {
             if (options.showMethod === 'fadeIn') {
                 Toastr.fadeIn(toastElement, {
                     showDuration: options.showDuration,
-                    showEasing: options.showEasing,
                     complete: options.onShown,
                 });
             } else {
@@ -448,8 +455,8 @@ export class Toastr {
 
         const handleEvents = () => {
             if (options.closeOnHover) {
-                toastElement.addEventListener('onmouseover', stickAround);
-                toastElement.addEventListener('onmouseout', delayedHideToast);
+                toastElement.addEventListener('mouseover', stickAround);
+                toastElement.addEventListener('mouseout', delayedHideToast);
             }
 
             if (!options.onClick && options.tapToDismiss) {
@@ -634,9 +641,27 @@ export class Toastr {
 
         return toastElement;
     }
-    static fadeIn(toastElement: HTMLDivElement, arg1: { showDuration: any; showEasing: any; complete: any }) {
+    static fadeIn(toastElement: HTMLDivElement, options: { showDuration: any; complete: any }) {
         toastElement.classList.add('animate__animated', 'animate__fadeIn');
-        toastElement.style.setProperty('--animate-duration', '10s');
+        toastElement.style.setProperty('--animate-duration', options.showDuration / 1000 + 's');
+
+        const onAnimationEnd = (ev: { type: string }) => {
+            if (isFunction(options.complete)) {
+                options.complete();
+            }
+
+            toastElement.removeEventListener(ev.type, onAnimationEnd);
+        };
+
+        if (isNotNullOrUndefined(options.showDuration) && !isNaN(options.showDuration)) {
+            if (options.showDuration === 0) {
+                onAnimationEnd({ type: 'animationend' });
+                return;
+            }
+            toastElement.style.setProperty('--animate-duration', options.showDuration / 1000 + 's');
+        }
+
+        toastElement.addEventListener('animationend', onAnimationEnd);
     }
 
     /**

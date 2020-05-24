@@ -20,18 +20,22 @@
     "test": "karma start"
   },
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "animate.css": "^4.1.0"
+  },
   "devDependencies": {
     "@types/jasmine": "^3.5.10",
     "istanbul": "^0.4.5",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jasmine": "^3.5.0",
     "karma": "^5.0.9",
+    "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.2",
     "karma-coverage-istanbul-reporter": "^3.0.2",
     "karma-jasmine": "^3.1.1",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^4.0.2",
     "phantomjs-prebuilt": "^2.1.16",
     "prettier": "^2.0.5",
