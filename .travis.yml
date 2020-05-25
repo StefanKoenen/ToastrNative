@@ -31,10 +31,10 @@ script:
       yarn test
       fi;
 
-    - if [[ "$TRAVIS_EVENT_TYPE" = "cron" ]]; then
-      travis_retry yarn check:sauce &&
-      yarn check:third-party;
-      fi;
+    # - if [[ "$TRAVIS_EVENT_TYPE" = "cron" ]]; then
+    # travis_retry yarn check:sauce &&
+    #  yarn check:third-party;
+    #  fi;
 
 notifications:
     email:
