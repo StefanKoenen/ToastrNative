@@ -13,7 +13,6 @@ interface ToastrSettings {
     closeButton: boolean;
     closeClass: string;
     closeDuration: number;
-    closeEasing: boolean;
     closeHtml: string;
     closeMethod: boolean;
     closeOnHover: boolean;
@@ -92,7 +91,6 @@ export class Toastr {
             closeButton: false,
             closeClass: 'toast-close-button',
             closeDuration: 0,
-            closeEasing: false,
             closeHtml: '<button type="button">&times;</button>',
             closeMethod: false,
             closeOnHover: true,
@@ -245,9 +243,7 @@ export class Toastr {
      * Native remove element helper
      */
     private static removeElement(el: HTMLElement) {
-        if (isNotNullOrUndefined(el) && isNotNullOrUndefined(el.parentNode)) {
-            el.parentNode.removeChild(el);
-        }
+        el?.parentNode?.removeChild(el);
     }
 
     /**
@@ -313,17 +309,16 @@ export class Toastr {
      * Get container that contains the toastr
      */
     public static getContainer(options?: ToastrSettings, create?: boolean) {
-        if (!options) {
-            options = Toastr.getOptions() as ToastrSettings;
-        }
-        if (options.containerId != null) {
-            Toastr.containerEl = document.getElementById(options.containerId) as HTMLElement;
+        const settings = options ?? (Toastr.getOptions() as ToastrSettings);
+
+        if (settings.containerId != null) {
+            Toastr.containerEl = document.getElementById(settings.containerId) as HTMLElement;
         }
         if (Toastr.containerEl != null) {
             return Toastr.containerEl;
         }
         if (create === true) {
-            Toastr.createContainer(options);
+            Toastr.createContainer(settings);
         }
         return Toastr.containerEl;
     }
@@ -331,8 +326,6 @@ export class Toastr {
     private static createElementFromHTML(htmlString: string): HTMLElement {
         const div = document.createElement('div');
         div.innerHTML = htmlString.trim();
-
-        // Change this to div.childNodes to support multiple top-level nodes
         return div.firstChild as HTMLElement;
     }
 
@@ -374,7 +367,6 @@ export class Toastr {
         }
 
         Toastr.toastId++;
-
         Toastr.containerEl = Toastr.getContainer(options, true);
 
         let intervalId: number | undefined;
@@ -432,8 +424,6 @@ export class Toastr {
          * Display toast message
          */
         const displayToast = () => {
-            // toastElement.style.display = 'none';
-
             if (options.showMethod === 'fadeIn') {
                 Toastr.fadeIn(toastElement, {
                     showDuration: options.showDuration,
@@ -601,11 +591,6 @@ export class Toastr {
         const stickAround = () => {
             clearTimeout(intervalId);
             progressBar.hideEta = 0;
-            // Todo
-            // toastElement.stop(true, true)[options.showMethod]({
-            //   duration: options.showDuration,
-            //   easing: options.showEasing,
-            // });
         };
 
         /**
@@ -628,16 +613,10 @@ export class Toastr {
         };
 
         personalizeToast();
-
         displayToast();
-
         handleEvents();
 
         Toastr.publish(response);
-
-        if (options.debug && console) {
-            console.log(response);
-        }
 
         return toastElement;
     }

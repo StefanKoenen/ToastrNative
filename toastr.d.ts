@@ -11,7 +11,6 @@ interface ToastrSettings {
     closeButton: boolean;
     closeClass: string;
     closeDuration: number;
-    closeEasing: boolean;
     closeHtml: string;
     closeMethod: boolean;
     closeOnHover: boolean;
@@ -21,7 +20,6 @@ interface ToastrSettings {
     escapeHtml: boolean;
     extendedTimeOut: number;
     hideDuration: number;
-    hideEasing: string;
     hideMethod: string;
     iconClass: string;
     iconClasses: ToastrIconClasses;
@@ -29,15 +27,14 @@ interface ToastrSettings {
     newestOnTop: boolean;
     onClick: () => void;
     onCloseClick: (event: Event) => void;
-    onHidden: () => {};
-    onShown: () => {};
+    onHidden: () => void;
+    onShown: () => void;
     positionClass: string;
     preventDuplicates: boolean;
     progressBar: boolean;
     progressClass: string;
     rtl: boolean;
     showDuration: number;
-    showEasing: string;
     showMethod: string;
     target: string;
     timeOut: number;
@@ -52,38 +49,47 @@ interface ToastrCallback {
     toastId: number;
     state: 'visible' | 'hidden';
     startTime: Date;
-    options: ToastrSettings;
+    options: ToastrSettings & {
+        [key: string]: any;
+    };
     map: any;
 }
 export declare class Toastr {
     static version: string;
     private static containerEl;
-    private static options;
+    static options: ToastrOptions;
     private static previousToast;
     private static listener;
     private static toastId;
     private static toastType;
-    static getDefaults(): ToastrOptions;
-    static clear(toastElement: HTMLElement, clearOptions: ToastrClearOptions): void;
+    static getDefaults(): ToastrSettings;
+    static clear(toastElement?: HTMLElement, clearOptions?: ToastrClearOptions): void;
     private static clearContainer;
     private static fadeOut;
     private static removeToast;
     private static clearToast;
     private static createContainer;
-    static warning(message: string, title: string, optionsOverride: ToastrSettings): HTMLDivElement | undefined;
     static remove(toastElement: HTMLElement): void;
     private static removeElement;
-    static info(message: string, title: string, optionsOverride: ToastrSettings): HTMLDivElement | undefined;
     static subscribe(callback: (eventArgs: ToastrCallback) => void): void;
-    static success(message: string, title: string, optionsOverride: ToastrSettings): HTMLDivElement | undefined;
-    static error(message: string, title: string, optionsOverride: ToastrSettings): HTMLDivElement | undefined;
+    static info(message?: string, title?: string, optionsOverride?: ToastrOptions & {
+        [key: string]: any;
+    }): HTMLDivElement | undefined;
+    static success(message?: string, title?: string, optionsOverride?: ToastrOptions & {
+        [key: string]: any;
+    }): HTMLDivElement | undefined;
+    static warning(message?: string, title?: string, optionsOverride?: ToastrOptions & {
+        [key: string]: any;
+    }): HTMLDivElement | undefined;
+    static error(message?: string, title?: string, optionsOverride?: ToastrOptions & {
+        [key: string]: any;
+    }): HTMLDivElement | undefined;
     static getContainer(options?: ToastrSettings, create?: boolean): HTMLElement;
     private static createElementFromHTML;
     private static publish;
     private static notify;
-    static fadeIn(toastElement: HTMLDivElement, arg1: {
+    static fadeIn(toastElement: HTMLDivElement, options: {
         showDuration: any;
-        showEasing: any;
         complete: any;
     }): void;
     private static getOptions;

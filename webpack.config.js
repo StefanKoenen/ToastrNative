@@ -1,22 +1,31 @@
 const path = require('path');
 const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = function (env) {
     const productionBuild = env === 'production';
     const filename = `toastr-native${productionBuild ? '.min' : ''}.js`;
-    const plugins = productionBuild
-        ? [
-              new webpack.optimize.ModuleConcatenationPlugin(),
-              new webpack.optimize.UglifyJsPlugin({
-                  sourceMap: true,
-              }),
-          ]
-        : [];
+    const plugins = productionBuild ? [new webpack.optimize.ModuleConcatenationPlugin()] : [];
 
+    const optimization = productionBuild
+        ? {
+              minimize: true,
+              minimizer: [
+                  new TerserPlugin({
+                      parallel: true,
+                      sourceMap: true,
+                      terserOptions: {
+                          ecma: 6,
+                      },
+                  }),
+              ],
+          }
+        : {};
     return {
-        mode: 'development',
+        mode: productionBuild ? 'production' : 'development',
         entry: './src/toastr.ts',
-        devtool: 'inline-source-map',
+        devtool: productionBuild ? 'source-map' : 'inline-source-map',
+        optimization,
         resolve: {
             extensions: ['.ts', '.js'],
         },
