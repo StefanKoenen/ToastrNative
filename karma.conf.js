@@ -19,14 +19,15 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
         plugins: [
             require('karma-jasmine'),
-            require('karma-phantomjs-launcher'),
+            // require('karma-phantomjs-launcher'),
             require('karma-chrome-launcher'),
+            require('karma-firefox-launcher'),
+            // require('karma-ie-launcher'),
             //require('karma-coverage-istanbul-reporter'),
             require('karma-sourcemap-loader'),
             require('karma-webpack'),
         ],
-        files: [
-            {
+        files: [{
                 pattern: './src/**/*.spec.ts',
                 watched: false,
             },
@@ -56,13 +57,13 @@ module.exports = function (config) {
         //         "text-summary": ''
         //     }
         // },
-        reporters: ['progress' /*, 'coverage-istanbul'*/],
+        reporters: ['progress' /*, 'coverage-istanbul'*/ ],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
         singleRun: false,
-        browsers: ['ChromeDebugging'],
+        browsers: ['ChromeHeadless', 'FirefoxHeadless'],
         customLaunchers: {
             ChromeDebugging: {
                 base: 'Chrome',
