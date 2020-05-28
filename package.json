@@ -9,6 +9,7 @@
         "build:dev": "webpack",
         "build:prod": "webpack --env=production",
         "build": "npm run build:dev && npm run build:prod",
+        "bundlewatch": "bundlewatch --config .bundlewatch.js",
         "clean": "rimraf lib coverage",
         "lint": "tslint \"src/**/*.ts\"",
         "preversion": "npm test -- --single-run",
@@ -26,6 +27,7 @@
     },
     "devDependencies": {
         "@types/jasmine": "^3.5.10",
+        "bundlewatch": "^0.2.7",
         "istanbul": "^0.4.5",
         "istanbul-instrumenter-loader": "^3.0.1",
         "jasmine": "^3.5.0",

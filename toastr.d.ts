@@ -7,6 +7,11 @@ interface ToastrIconClasses {
 interface ToastrClearOptions {
     force: boolean;
 }
+interface FadeOptions {
+    onComplete: () => void;
+    duration: number;
+    style: string;
+}
 interface ToastrSettings {
     closeButton: boolean;
     closeClass: string;
@@ -61,11 +66,9 @@ export declare class Toastr {
     private static previousToast;
     private static listener;
     private static toastId;
-    private static toastType;
     static getDefaults(): ToastrSettings;
     static clear(toastElement?: HTMLElement, clearOptions?: ToastrClearOptions): void;
     private static clearContainer;
-    private static fadeOut;
     private static removeToast;
     private static clearToast;
     private static createContainer;
@@ -88,10 +91,7 @@ export declare class Toastr {
     private static createElementFromHTML;
     private static publish;
     private static notify;
-    static fadeIn(toastElement: HTMLDivElement, options: {
-        showDuration: any;
-        complete: any;
-    }): void;
+    static animate(toastElement: HTMLElement, options: FadeOptions): void;
     private static getOptions;
 }
 export {};
