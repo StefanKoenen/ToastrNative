@@ -84,12 +84,17 @@ const enum ToastType {
 export class Toastr {
     public static version: string = '1.0.0';
 
-    private static containerEl: HTMLElement;
-
     public static options: ToastrOptions = {};
 
+    private static containerEl: HTMLElement;
+
+    /** The message of the last toast */
     private static previousToast: string | undefined;
+
+    /** Can be used to listen to events */
     private static listener: (eventArgs: ToastrCallback) => void;
+
+    /** The toast id (will increment for every new toast) */
     private static toastId = 0;
 
     /**
@@ -136,16 +141,6 @@ export class Toastr {
             titleClass: 'toast-title',
             toastClass: 'toast',
         };
-    }
-
-    public static clear(toastElement?: HTMLElement, clearOptions?: ToastrClearOptions) {
-        const options = Toastr.getOptions();
-        if (!Toastr.containerEl) {
-            Toastr.getContainer(options, false);
-        }
-        if (!Toastr.clearToast(toastElement, options, clearOptions)) {
-            Toastr.clearContainer(options);
-        }
     }
 
     /**
@@ -212,6 +207,16 @@ export class Toastr {
      */
     private static removeElement(el: HTMLElement) {
         el?.parentNode?.removeChild(el);
+    }
+
+    public static clear(toastElement?: HTMLElement, clearOptions?: ToastrClearOptions) {
+        const options = Toastr.getOptions();
+        if (!Toastr.containerEl) {
+            Toastr.getContainer(options, false);
+        }
+        if (!Toastr.clearToast(toastElement, options, clearOptions)) {
+            Toastr.clearContainer(options);
+        }
     }
 
     /**
@@ -292,6 +297,28 @@ export class Toastr {
         const div = document.createElement('div');
         div.innerHTML = htmlString.trim();
         return div.firstChild as HTMLElement;
+    }
+
+    private static animate(toastElement: HTMLElement, options: FadeOptions) {
+        toastElement.classList.add('animate__animated', `animate__${options.style}`);
+
+        const onAnimationEnd = (ev: { type: string }) => {
+            if (isFunction(options.onComplete)) {
+                options.onComplete();
+            }
+
+            toastElement.removeEventListener(ev.type, onAnimationEnd);
+        };
+
+        if (!isNaN(options.duration) || 0) {
+            if (options.duration === 0) {
+                onAnimationEnd({ type: 'animationend' });
+            } else {
+                toastElement.style.setProperty('--animate-duration', options.duration / 1000 + 's');
+            }
+        }
+
+        toastElement.addEventListener('animationend', onAnimationEnd);
     }
 
     /**
@@ -512,6 +539,7 @@ export class Toastr {
                 progressElement.style.setProperty('--animate-duration', options.extendedTimeOut / 1000 + 's');
                 progressElement.style.width = '100%';
                 // trigger reflow
+                // tslint:disable-next-line
                 void progressElement.offsetWidth;
                 progressElement.classList.add(options.progressClass);
             }
@@ -539,28 +567,6 @@ export class Toastr {
         Toastr.publish(response);
 
         return toastElement;
-    }
-
-    static animate(toastElement: HTMLElement, options: FadeOptions) {
-        toastElement.classList.add('animate__animated', `animate__${options.style}`);
-
-        const onAnimationEnd = (ev: { type: string }) => {
-            if (isFunction(options.onComplete)) {
-                options.onComplete();
-            }
-
-            toastElement.removeEventListener(ev.type, onAnimationEnd);
-        };
-
-        if (!isNaN(options.duration) || 0) {
-            if (options.duration === 0) {
-                onAnimationEnd({ type: 'animationend' });
-            } else {
-                toastElement.style.setProperty('--animate-duration', options.duration / 1000 + 's');
-            }
-        }
-
-        toastElement.addEventListener('animationend', onAnimationEnd);
     }
 
     /**
