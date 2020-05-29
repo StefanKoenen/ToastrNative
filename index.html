@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 
-<script src="lib/toastr-native.js"></script>
-<link rel="stylesheet" href="toastr.css">
+<script src="dist/toastr-native.js"></script>
+<link rel="stylesheet" href="dist/toastr-native.min.css">
 <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
@@ -10,6 +10,7 @@
 <body>
 </body>
 <script>
+Toastr.options.progressBar = true;
 Toastr.success('Hello world!');
 </script>
 </html>
