@@ -72,7 +72,6 @@ export declare class Toastr {
     private static removeToast;
     private static clearToast;
     private static createContainer;
-    static remove(toastElement: HTMLElement): void;
     private static removeElement;
     static subscribe(callback: (eventArgs: ToastrCallback) => void): void;
     static info(message?: string, title?: string, optionsOverride?: ToastrOptions & {

@@ -1,9 +1,11 @@
 const bundlewatchConfig = {
-    files: [{
-        path: './dist/*.js',
-        maxSize: '100kb',
-        compression: 'none',
-    }, ],
+    files: [
+        {
+            path: './dist/*.js',
+            maxSize: '75kb',
+            compression: 'none',
+        },
+    ],
     bundlewatchServiceHost: 'https://service.bundlewatch.io', // Can be a custom service
     // ci: {
     //     githubAccessToken: ciEnv.githubAccessToken,

@@ -86,7 +86,7 @@ export class Toastr {
 
     private static containerEl: HTMLElement;
 
-    public static options: ToastrOptions;
+    public static options: ToastrOptions = {};
 
     private static previousToast: string | undefined;
     private static listener: (eventArgs: ToastrCallback) => void;
@@ -107,7 +107,7 @@ export class Toastr {
             containerId: defaultContainerId,
             debug: false,
             escapeHtml: false,
-            extendedTimeOut: 1000,
+            extendedTimeOut: 10000,
             hideDuration: 1000,
             hideMethod: 'fadeOut',
             iconClass: 'toast-info',
@@ -128,7 +128,7 @@ export class Toastr {
             progressBar: false,
             progressClass: 'toast-progress',
             rtl: false,
-            showDuration: 300,
+            showDuration: 3000,
             showMethod: 'fadeIn', // fadeIn, slideDown, and show are built into jQuery
             tapToDismiss: true,
             target: 'body',
@@ -166,6 +166,7 @@ export class Toastr {
         }
 
         Toastr.removeElement(toastElement);
+
         if (Toastr.containerEl?.children.length === 0) {
             Toastr.removeElement(Toastr.containerEl);
             Toastr.previousToast = undefined;
@@ -203,20 +204,6 @@ export class Toastr {
             targetEl.appendChild(Toastr.containerEl);
         } else {
             console.warn(`Couldn't create toastr container.`);
-        }
-    }
-
-    public static remove(toastElement: HTMLElement) {
-        const options = Toastr.getOptions();
-        if (!Toastr.containerEl) {
-            Toastr.getContainer(options);
-        }
-        if (toastElement && toastElement !== toastElement.ownerDocument?.activeElement) {
-            Toastr.removeToast(toastElement);
-            return;
-        }
-        if (Toastr.containerEl?.children.length) {
-            Toastr.removeElement(Toastr.containerEl);
         }
     }
 
@@ -295,10 +282,7 @@ export class Toastr {
         if (settings.containerId != null) {
             Toastr.containerEl = document.getElementById(settings.containerId) as HTMLElement;
         }
-        if (Toastr.containerEl != null) {
-            return Toastr.containerEl;
-        }
-        if (create === true) {
+        if (Toastr.containerEl == null && create === true) {
             Toastr.createContainer(settings);
         }
         return Toastr.containerEl;
@@ -314,10 +298,7 @@ export class Toastr {
      * ...
      */
     private static publish(args: ToastrCallback) {
-        if (!Toastr.listener) {
-            return;
-        }
-        Toastr.listener(args);
+        Toastr?.listener(args);
     }
 
     private static notify(map: any) {
@@ -356,15 +337,6 @@ export class Toastr {
         const $messageElement = document.createElement('div');
         const progressElement = document.createElement('div');
         const closeElement: HTMLElement = Toastr.createElementFromHTML(options.closeHtml);
-        const progressBar: {
-            intervalId?: number;
-            hideEta?: number;
-            maxHideTime?: number;
-        } = {
-            intervalId: undefined,
-            hideEta: undefined,
-            maxHideTime: undefined,
-        };
 
         const response: ToastrCallback = {
             toastId: Toastr.toastId,
@@ -380,11 +352,10 @@ export class Toastr {
             if (toastElement === toastElement.ownerDocument?.activeElement && !override) {
                 return;
             }
-            clearTimeout(+(progressBar.intervalId || 0));
 
             Toastr.animate(toastElement, {
                 duration: hideDuration,
-                style: 'fadeOut',
+                style: options.hideMethod,
                 onComplete: () => {
                     Toastr.removeToast(toastElement);
                     clearTimeout(intervalId);
@@ -410,11 +381,6 @@ export class Toastr {
 
             if (options.timeOut) {
                 intervalId = setTimeout(hideToast, options.timeOut);
-                progressBar.maxHideTime = parseFloat(options.timeOut.toString());
-                progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
-                if (options.progressBar) {
-                    progressBar.intervalId = setInterval(updateProgress, 10);
-                }
             }
         };
 
@@ -434,7 +400,7 @@ export class Toastr {
                 toastElement.addEventListener('click', event => {
                     if (event.stopPropagation) {
                         event.stopPropagation();
-                    } else if (event.cancelBubble !== undefined && event.cancelBubble !== true) {
+                    } else if (event.cancelBubble === false) {
                         event.cancelBubble = true;
                     }
 
@@ -476,11 +442,7 @@ export class Toastr {
          * Add toaster to container
          */
         const setSequence = () => {
-            if (options.newestOnTop) {
-                Toastr.containerEl.insertBefore(toastElement, Toastr.containerEl.firstChild);
-            } else {
-                Toastr.containerEl.appendChild(toastElement);
-            }
+            Toastr.containerEl.insertBefore(toastElement, options.newestOnTop ? Toastr.containerEl.firstChild : null);
         };
 
         /**
@@ -530,6 +492,7 @@ export class Toastr {
         const setProgressBar = () => {
             if (options.progressBar) {
                 progressElement.classList.add(options.progressClass);
+                progressElement.style.setProperty('--animate-duration', options.timeOut / 1000 + 's');
                 toastElement.insertBefore(progressElement, toastElement.firstChild);
             }
         };
@@ -545,23 +508,17 @@ export class Toastr {
 
         const delayedHideToast = () => {
             if (options.timeOut > 0 || options.extendedTimeOut > 0) {
-                intervalId = setTimeout(hideToast, options.extendedTimeOut);
-                progressBar.maxHideTime = options.extendedTimeOut;
-                progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
+                progressElement.classList.remove(options.progressClass);
+                progressElement.style.setProperty('--animate-duration', options.extendedTimeOut / 1000 + 's');
+                progressElement.style.width = '100%';
+                // trigger reflow
+                void progressElement.offsetWidth;
+                progressElement.classList.add(options.progressClass);
             }
         };
 
         const stickAround = () => {
             clearTimeout(intervalId);
-            progressBar.hideEta = 0;
-        };
-
-        /**
-         * Get update progress
-         */
-        const updateProgress = () => {
-            const percentage = ((progressBar.hideEta ?? 0 - new Date().getTime()) / (progressBar?.maxHideTime ?? 0)) * 100;
-            progressElement.style.width = percentage + '%';
         };
 
         const personalizeToast = () => {
