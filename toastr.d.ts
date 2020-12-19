@@ -7,21 +7,13 @@ interface ToastrIconClasses {
 interface ToastrClearOptions {
     force: boolean;
 }
-interface FadeOptions {
-    onComplete: () => void;
-    duration: number;
-    style: string;
-}
 interface ToastrSettings {
     closeButton: boolean;
     closeClass: string;
     closeDuration: number;
     closeHtml: string;
-    closeMethod: boolean;
     closeOnHover: boolean;
-    complete: () => void;
     containerId: string;
-    debug: boolean;
     escapeHtml: boolean;
     extendedTimeOut: number;
     hideDuration: number;
@@ -49,7 +41,7 @@ interface ToastrSettings {
 }
 interface ToastrOptions extends Partial<ToastrSettings> {
 }
-interface ToastrCallback {
+interface ToastrEvent {
     endTime: Date;
     toastId: number;
     state: 'visible' | 'hidden';
@@ -60,20 +52,19 @@ interface ToastrCallback {
     map: any;
 }
 export declare class Toastr {
-    static version: string;
-    private static containerEl;
     static options: ToastrOptions;
+    private static containerEl;
     private static previousToast;
     private static listener;
     private static toastId;
     static getDefaults(): ToastrSettings;
-    static clear(toastElement?: HTMLElement, clearOptions?: ToastrClearOptions): void;
     private static clearContainer;
     private static removeToast;
     private static clearToast;
     private static createContainer;
     private static removeElement;
-    static subscribe(callback: (eventArgs: ToastrCallback) => void): void;
+    static clear(toastElement?: HTMLElement, clearOptions?: ToastrClearOptions): void;
+    static subscribe(callback: (eventArgs: ToastrEvent) => void): void;
     static info(message?: string, title?: string, optionsOverride?: ToastrOptions & {
         [key: string]: any;
     }): HTMLDivElement | undefined;
@@ -88,9 +79,9 @@ export declare class Toastr {
     }): HTMLDivElement | undefined;
     static getContainer(options?: ToastrSettings, create?: boolean): HTMLElement;
     private static createElementFromHTML;
+    private static animate;
     private static publish;
     private static notify;
-    static animate(toastElement: HTMLElement, options: FadeOptions): void;
     private static getOptions;
 }
 export {};

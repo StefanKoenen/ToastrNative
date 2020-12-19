@@ -1,0 +1,959 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>toastr-native documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">toastr-native documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+    <li>Interfaces</li>
+    <li>ToastrClearOptions</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active" >
+        <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+    </li>
+    <li >
+        <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+        <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/toastr.ts</code>
+        </p>
+
+        <p class="comment">
+        <h3>Description</h3>
+        </p>
+        <p class="comment">
+            <p>Options for clearing notifications</p>
+
+        </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#force">force</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+        <section>
+            <h3 id="inputs">Properties</h3>
+            <table class="table table-sm table-bordered table-properties">
+                <tbody>
+                    <tr>
+                        <td class="col-md-3">
+                            <a name="force"></a>
+                            <span class="name"><b>force</b><a href="#force"><span class="icon ion-ios-link"></span></a></span>
+                        </td>
+                        <td class="col-md-2">
+                            <span>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</span>
+                        </td>
+                        <td class="col-md-6">
+                            <div class="io-description"><p>Set to true to always delete the notification, even when the element has focus</p>
+</div>
+                        </td>
+                    </tr>
+
+
+
+
+
+
+
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">interface ToastrIconClasses {
+    /**
+     * CSS Class to use for the error notification type
+     * @default &#x27;toastr-error&#x27;
+     */
+    error: string;
+    /**
+     * CSS Class to use for the info notification type
+     * @default &#x27;toastr-info&#x27;
+     */
+    info: string;
+    /**
+     * CSS Class to use for the success notification type
+     * @default &#x27;toastr-success&#x27;
+     */
+    success: string;
+    /**
+     * CSS Class to use for the warning notification type
+     * @default &#x27;toastr-warning&#x27;
+     */
+    warning: string;
+}
+
+/**
+ * Options for clearing notifications
+ */
+interface ToastrClearOptions {
+    /**
+     * Set to true to always delete the notification, even when the element has focus
+     */
+    force: boolean;
+}
+
+/**
+ * Settings for the show and hide animations
+ */
+interface FadeOptions {
+    /**
+     * Called when the animation ends
+     */
+    onComplete: () &#x3D;&gt; void;
+    /**
+     * Duration (in miliseconds) of the animation
+     */
+    duration: number;
+    /**
+     * The css class to use for the animation
+     */
+    style: string;
+}
+
+/**
+ * Settings for the notifications
+ */
+interface ToastrSettings {
+    /**
+     * If set to true, a &#x27;close&#x27; button will be shown
+     * @default false
+     */
+    closeButton: boolean;
+    /**
+     * The class to add to the close button
+     * @default &#x27;toast-close-button&#x27;
+     */
+    closeClass: string;
+    /**
+     * The amount of time (in miliseconds) the animation should take when the user clicks the close button
+     * @default 0
+     */
+    closeDuration: number;
+    /**
+     * HTML used to create the close button
+     *  @default &#x27;&lt;button type&#x3D;&quot;button&quot;&gt;&amp;times;&lt;/button&gt;&#x27;
+     */
+    closeHtml: string;
+    /**
+     * Whether the notification should be closed when the user hovers the notification
+     * @default true
+     */
+    closeOnHover: boolean;
+    /**
+     * DOM id of the container
+     * @default &#x27;toast-container&#x27;
+     */
+    containerId: string;
+    /**
+     * Whether or not HTML characters in the title and message should be escaped
+     * @default false
+     */
+    escapeHtml: boolean;
+    /**
+     * The amount of time (in miliseconds) the toast should be displayed after a user hovers it
+     * @default 1000
+     */
+    extendedTimeOut: number;
+    /**
+     * The amount of time the hide animation should take
+     * @default 1000
+     */
+    hideDuration: number;
+    /**
+     * The name of the animate.css animation used for hiding the toast
+     * @default &#x27;fadeOut&#x27;
+     */
+    hideMethod: string;
+    /**
+     * The default icon class
+     * @default &#x27;toast-info&#x27;
+     */
+    iconClass: string;
+    /**
+     * Can be used to specify the default icon per notification type
+     */
+    iconClasses: ToastrIconClasses;
+    /**
+     * The class added to the message element of the notification
+     * @default &#x27;toast-message&#x27;
+     */
+    messageClass: string;
+    /**
+     * If set to false, new notifications will be added at the bottom
+     * @default true
+     */
+    newestOnTop: boolean;
+    /**
+     * Called when the user clicks the notification
+     * @default noop
+     */
+    onClick: () &#x3D;&gt; void;
+    /**
+     * Called when a user clicks the close button
+     * @default noop
+     */
+    onCloseClick: (event: Event) &#x3D;&gt; void;
+    /**
+     * Called after the notification is hidden
+     * @default noop
+     */
+    onHidden: () &#x3D;&gt; void;
+    /**
+     * Called after the notification is shown
+     * @default noop
+     */
+    onShown: () &#x3D;&gt; void;
+    /**
+     * Class used to set the position of the notification
+     * @default &#x27;toast-top-right&#x27;
+     */
+    positionClass: string;
+    /**
+     * Prevents the notifications from being shown when the message matches the previous message
+     * @default false
+     */
+    preventDuplicates: boolean;
+    /**
+     * Whether or not a progressbar should be shown
+     * @default false
+     */
+    progressBar: boolean;
+    /**
+     * Css class to set on the progressbar element
+     * @default &#x27;toast-progress&#x27;
+     */
+    progressClass: string;
+    /**
+     *  Set to true for right-to-left languages
+     *  @default false
+     */
+    rtl: boolean;
+    /**
+     * The amount of time the hide animation should take
+     * @default 300
+     */
+    showDuration: number;
+    /**
+     * The name of the animate.css animation used for showing the toast
+     * @default &#x27;fadeIn&#x27;
+     */
+    showMethod: string;
+    /**
+     * The element the toastr container should be added to
+     * @default: &#x27;body&#x27;
+     */
+    target: string;
+    /**
+     * The amount of time (in miliseconds) the notification should be shown
+     * @default 5000
+     */
+    timeOut: number;
+    /**
+     * The CSS class to add to the title element
+     * @default &#x27;toast-title&#x27;
+     */
+    titleClass: string;
+    /**
+     * The CSS class to add to the notification element
+     * @default &#x27;toast-title&#x27;
+     */
+    toastClass: string;
+    /**
+     * Set to true to hide the notification when a user click on it
+     * @default true
+     */
+    tapToDismiss: boolean;
+}
+
+/**
+ * Used to set overriden options for the notifications
+ */
+interface ToastrOptions extends Partial&lt;ToastrSettings&gt; {}
+
+/**
+ * Used as argument for toastr show and hide events
+ */
+interface ToastrEvent {
+    /** The time the notification is hidden */
+    endTime: Date;
+    /** The ID of the notification */
+    toastId: number;
+    /** The state of the toastr, visible or hidden */
+    state: &#x27;visible&#x27; | &#x27;hidden&#x27;;
+    /** The time the toastr is created */
+    startTime: Date;
+    /** The settings for the notification */
+    options: ToastrSettings &amp; { [key: string]: any };
+    /** The overriden options for the notification */
+    map: any;
+}
+
+/**
+ * Returns true when the given value is null or undefined
+ * @param value The value to check if it&#x27;s null or undefined
+ */
+function isNotNullOrUndefined&lt;T&gt;(value: T | null | undefined): value is T {
+    return value !&#x3D; null &amp;&amp; value !&#x3D;&#x3D; undefined;
+}
+
+/**
+ * Returns whether the given argument is a function or not
+ * @param functionToCheck The value to check if it&#x27;s a function
+ */
+function isFunction(functionToCheck: unknown): functionToCheck is () &#x3D;&gt; any {
+    return functionToCheck &amp;&amp; {}.toString.call(functionToCheck) &#x3D;&#x3D;&#x3D; &#x27;[object Function]&#x27;;
+}
+
+/**
+ * An empty function
+ */
+function noop() {}
+
+const enum ToastType {
+    error &#x3D; &#x27;error&#x27;,
+    info &#x3D; &#x27;info&#x27;,
+    success &#x3D; &#x27;success&#x27;,
+    warning &#x3D; &#x27;warning&#x27;,
+}
+
+/**
+ * Toastr notification library
+ */
+export class Toastr {
+    /** Default settings for the notifications */
+    public static options: ToastrOptions &#x3D; {};
+
+    /** Reference to the container DOM element */
+    private static containerEl: HTMLElement;
+
+    /** The message of the last toast */
+    private static previousToast: string | undefined;
+
+    /** Can be used to listen to events */
+    private static listener: (eventArgs: ToastrEvent) &#x3D;&gt; void;
+
+    /** The toast id (will increment for every new toast) */
+    private static toastId &#x3D; 0;
+
+    /**
+     * Get default settings from toastrjs
+     */
+    public static getDefaults(): ToastrSettings {
+        return {
+            closeButton: false,
+            closeClass: &#x27;toast-close-button&#x27;,
+            closeDuration: 0,
+            closeHtml: &#x27;&lt;button type&#x3D;&quot;button&quot;&gt;&amp;times;&lt;/button&gt;&#x27;,
+            closeOnHover: true,
+            containerId: &#x27;toast-container&#x27;,
+            escapeHtml: false,
+            extendedTimeOut: 1000,
+            hideDuration: 1000,
+            hideMethod: &#x27;fadeOut&#x27;,
+            iconClass: &#x27;toast-info&#x27;,
+            iconClasses: {
+                error: &#x27;toast-error&#x27;,
+                info: &#x27;toast-info&#x27;,
+                success: &#x27;toast-success&#x27;,
+                warning: &#x27;toast-warning&#x27;,
+            },
+            messageClass: &#x27;toast-message&#x27;,
+            newestOnTop: true,
+            onClick: noop,
+            onCloseClick: (event: Event) &#x3D;&gt; {},
+            onHidden: noop,
+            onShown: noop,
+            positionClass: &#x27;toast-top-right&#x27;,
+            preventDuplicates: false,
+            progressBar: false,
+            progressClass: &#x27;toast-progress&#x27;,
+            rtl: false,
+            showDuration: 300,
+            showMethod: &#x27;fadeIn&#x27;,
+            tapToDismiss: true,
+            target: &#x27;body&#x27;,
+            timeOut: 5000,
+            titleClass: &#x27;toast-title&#x27;,
+            toastClass: &#x27;toast&#x27;,
+        };
+    }
+
+    /**
+     * Clear toastr container
+     */
+    private static clearContainer(options: ToastrSettings) {
+        if (!isNotNullOrUndefined(Toastr.containerEl)) return;
+
+        Array.from(Toastr.containerEl.children).forEach(el &#x3D;&gt; Toastr.clearToast(el as HTMLElement, options));
+    }
+
+    /**
+     * Remove a toast element
+     */
+    private static removeToast(toastElement: HTMLElement) {
+        if (!Toastr.containerEl) {
+            Toastr.containerEl &#x3D; Toastr.getContainer();
+        }
+
+        Toastr.removeElement(toastElement);
+
+        if (Toastr.containerEl?.children.length &#x3D;&#x3D;&#x3D; 0) {
+            Toastr.removeElement(Toastr.containerEl);
+            Toastr.previousToast &#x3D; undefined;
+        }
+    }
+
+    /**
+     * Clear toastr element
+     */
+    private static clearToast(toastElement: HTMLElement | undefined, options: ToastrSettings, clearOptions?: ToastrClearOptions) {
+        const force &#x3D; clearOptions?.force &#x3D;&#x3D;&#x3D; true;
+        if (toastElement &amp;&amp; (force || toastElement !&#x3D;&#x3D; toastElement.ownerDocument?.activeElement)) {
+            Toastr.animate(toastElement, {
+                duration: options.hideDuration,
+                style: options.hideMethod,
+                onComplete: () &#x3D;&gt; {
+                    Toastr.removeToast(toastElement);
+                },
+            });
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Creates the container that contains all toasters
+     */
+    private static createContainer(options: ToastrSettings) {
+        Toastr.containerEl &#x3D; document.createElement(&#x27;div&#x27;);
+        Toastr.containerEl.setAttribute(&#x27;id&#x27;, options.containerId);
+        Toastr.containerEl.classList.add(options.positionClass);
+        const targetEl: HTMLElement | null &#x3D; document.querySelector(options.target);
+
+        if (targetEl !&#x3D; null) {
+            targetEl.appendChild(Toastr.containerEl);
+        } else {
+            console.warn(&#x60;Couldn&#x27;t create toastr container, the &#x27;containerEl&#x27; cannot be found.&#x60;);
+        }
+    }
+
+    /**
+     * Native remove element helper
+     */
+    private static removeElement(el: HTMLElement) {
+        el?.parentNode?.removeChild(el);
+    }
+
+    /**
+     * Removes the notification element from the dom.
+     * Clears the whole container if the notification couldn&#x27;t be removed
+     * @param toastElement The notification element to remove
+     * @param clearOptions Clear options
+     */
+    public static clear(toastElement?: HTMLElement, clearOptions?: ToastrClearOptions) {
+        const options &#x3D; Toastr.getOptions();
+        if (!Toastr.containerEl) {
+            Toastr.getContainer(options, false);
+        }
+        if (!Toastr.clearToast(toastElement, options, clearOptions)) {
+            Toastr.clearContainer(options);
+        }
+    }
+
+    /**
+     * Register a callback function
+     */
+    public static subscribe(callback: (eventArgs: ToastrEvent) &#x3D;&gt; void) {
+        Toastr.listener &#x3D; callback;
+    }
+
+    /**
+     * Show info message
+     */
+    public static info(message?: string, title?: string, optionsOverride?: ToastrOptions &amp; { [key: string]: any }) {
+        return Toastr.notify({
+            type: ToastType.info,
+            iconClass: (Toastr.getOptions().iconClasses as ToastrIconClasses).info,
+            message,
+            optionsOverride,
+            title,
+        });
+    }
+
+    /**
+     * Show success message
+     */
+    public static success(message?: string, title?: string, optionsOverride?: ToastrOptions &amp; { [key: string]: any }) {
+        return Toastr.notify({
+            type: ToastType.success,
+            iconClass: (Toastr.getOptions().iconClasses as ToastrIconClasses).success,
+            message,
+            optionsOverride,
+            title,
+        });
+    }
+
+    /**
+     * Show warning message
+     */
+    public static warning(message?: string, title?: string, optionsOverride?: ToastrOptions &amp; { [key: string]: any }) {
+        return Toastr.notify({
+            type: ToastType.warning,
+            iconClass: (Toastr.getOptions().iconClasses as ToastrIconClasses).warning,
+            message,
+            optionsOverride,
+            title,
+        });
+    }
+
+    /**
+     * Shows an error message
+     */
+    public static error(message?: string, title?: string, optionsOverride?: ToastrOptions &amp; { [key: string]: any }) {
+        return Toastr.notify({
+            type: ToastType.error,
+            iconClass: (Toastr.getOptions().iconClasses as ToastrIconClasses).error,
+            message,
+            optionsOverride,
+            title,
+        });
+    }
+
+    /**
+     * Get container that contains the toastr
+     */
+    public static getContainer(options?: ToastrSettings, create?: boolean) {
+        const settings &#x3D; options ?? (Toastr.getOptions() as ToastrSettings);
+
+        if (settings.containerId !&#x3D; null) {
+            Toastr.containerEl &#x3D; document.getElementById(settings.containerId) as HTMLElement;
+        }
+        if (Toastr.containerEl &#x3D;&#x3D; null &amp;&amp; create &#x3D;&#x3D;&#x3D; true) {
+            Toastr.createContainer(settings);
+        }
+        return Toastr.containerEl;
+    }
+
+    /**
+     * Creates a DOM element from a HTML string
+     * @param htmlString The HTML string to create the DOM element(s) from
+     */
+    private static createElementFromHTML(htmlString: string): HTMLElement {
+        const div &#x3D; document.createElement(&#x27;div&#x27;);
+        div.innerHTML &#x3D; htmlString.trim();
+        return div.firstChild as HTMLElement;
+    }
+
+    /**
+     * Used to add animation to show and hide the notification
+     * @param toastElement The element to animate
+     * @param options The animation options
+     */
+    private static animate(toastElement: HTMLElement, options: FadeOptions) {
+        toastElement.classList.add(&#x27;animate__animated&#x27;, &#x60;animate__${options.style}&#x60;);
+
+        const onAnimationEnd &#x3D; (ev: { type: string }) &#x3D;&gt; {
+            if (isFunction(options.onComplete)) {
+                options.onComplete();
+            }
+
+            toastElement.removeEventListener(ev.type, onAnimationEnd);
+        };
+
+        if (!isNaN(options.duration) || 0) {
+            if (options.duration &#x3D;&#x3D;&#x3D; 0) {
+                onAnimationEnd({ type: &#x27;animationend&#x27; });
+            } else {
+                toastElement.style.setProperty(&#x27;--animate-duration&#x27;, options.duration / 1000 + &#x27;s&#x27;);
+            }
+        }
+
+        toastElement.addEventListener(&#x27;animationend&#x27;, onAnimationEnd);
+    }
+
+    /**
+     * Fires events
+     */
+    private static publish(args: ToastrEvent) {
+        if (Toastr.listener) {
+            Toastr.listener(args);
+        }
+    }
+
+    /**
+     * Creates the notification
+     * @param map The overriden options
+     */
+    private static notify(map: any) {
+        const shouldExit &#x3D; (_settings: ToastrSettings, _map: any) &#x3D;&gt; {
+            const result &#x3D; _settings.preventDuplicates &#x3D;&#x3D;&#x3D; true &amp;&amp; _map.message &#x3D;&#x3D;&#x3D; Toastr.previousToast;
+            Toastr.previousToast &#x3D; _map.message;
+            return result;
+        };
+
+        let options &#x3D; Toastr.getOptions();
+        let iconClass &#x3D; map.iconClass || options.iconClass;
+
+        if (isNotNullOrUndefined(map.optionsOverride)) {
+            options &#x3D; {
+                ...options,
+                ...map.optionsOverride,
+            };
+            iconClass &#x3D; map.optionsOverride.iconClass || iconClass;
+        }
+
+        if (shouldExit(options, map)) {
+            return;
+        }
+
+        Toastr.toastId++;
+        Toastr.containerEl &#x3D; Toastr.getContainer(options, true);
+
+        let intervalId: number | undefined;
+        const toastElement &#x3D; document.createElement(&#x27;div&#x27;);
+        const $titleElement &#x3D; document.createElement(&#x27;div&#x27;);
+        const $messageElement &#x3D; document.createElement(&#x27;div&#x27;);
+        const progressElement &#x3D; document.createElement(&#x27;div&#x27;);
+        const closeElement: HTMLElement &#x3D; Toastr.createElementFromHTML(options.closeHtml);
+
+        const response: ToastrEvent &#x3D; {
+            toastId: Toastr.toastId,
+            state: &#x27;visible&#x27;,
+            startTime: new Date(),
+            endTime: new Date(),
+            options,
+            map,
+        };
+
+        const hideToast &#x3D; (override: boolean) &#x3D;&gt; {
+            const hideDuration &#x3D; override &amp;&amp; options.closeDuration !&#x3D;&#x3D; 0 ? options.closeDuration : options.hideDuration;
+            if (toastElement &#x3D;&#x3D;&#x3D; toastElement.ownerDocument?.activeElement &amp;&amp; !override) {
+                return;
+            }
+
+            Toastr.animate(toastElement, {
+                duration: hideDuration,
+                style: options.hideMethod,
+                onComplete: () &#x3D;&gt; {
+                    Toastr.removeToast(toastElement);
+                    clearTimeout(intervalId);
+                    if (isFunction(options.onHidden) &amp;&amp; response.state !&#x3D;&#x3D; &#x27;hidden&#x27;) {
+                        options.onHidden();
+                    }
+                    response.state &#x3D; &#x27;hidden&#x27;;
+                    response.endTime &#x3D; new Date();
+                    Toastr.publish(response);
+                },
+            });
+        };
+
+        /**
+         * Display toast message
+         */
+        const displayToast &#x3D; () &#x3D;&gt; {
+            Toastr.animate(toastElement, {
+                duration: options.showDuration,
+                onComplete: options.onShown,
+                style: options.showMethod,
+            });
+
+            if (options.timeOut) {
+                intervalId &#x3D; setTimeout(hideToast, options.timeOut);
+            }
+        };
+
+        const handleEvents &#x3D; () &#x3D;&gt; {
+            if (options.closeOnHover) {
+                toastElement.addEventListener(&#x27;mouseover&#x27;, stickAround);
+                toastElement.addEventListener(&#x27;mouseout&#x27;, delayedHideToast);
+            }
+
+            if (!options.onClick &amp;&amp; options.tapToDismiss) {
+                toastElement.addEventListener(&#x27;click&#x27;, () &#x3D;&gt; {
+                    hideToast(false);
+                });
+            }
+
+            if (options.closeButton &amp;&amp; closeElement) {
+                toastElement.addEventListener(&#x27;click&#x27;, event &#x3D;&gt; {
+                    if (event.stopPropagation) {
+                        event.stopPropagation();
+                    } else if (event.cancelBubble &#x3D;&#x3D;&#x3D; false) {
+                        event.cancelBubble &#x3D; true;
+                    }
+
+                    if (options.onCloseClick) {
+                        options.onCloseClick(event);
+                    }
+
+                    hideToast(true);
+                });
+            }
+
+            if (isFunction(options.onClick)) {
+                toastElement.addEventListener(&#x27;click&#x27;, event &#x3D;&gt; {
+                    options.onCloseClick(event);
+                    hideToast(false);
+                });
+            }
+        };
+
+        const escapeHtml &#x3D; (source: string) &#x3D;&gt; {
+            return (source ?? &#x27;&#x27;).replace(/&amp;/g, &#x27;&amp;amp;&#x27;).replace(/&#x27;/g, &#x27;&amp;quot;&#x27;).replace(/&#x27;/g, &#x27;&amp;#39;&#x27;).replace(/&lt;/g, &#x27;&amp;lt;&#x27;).replace(/&gt;/g, &#x27;&amp;gt;&#x27;);
+        };
+
+        const setAria &#x3D; () &#x3D;&gt; {
+            const ariaValue &#x3D; [&#x27;toast-success&#x27;, &#x27;toast-info&#x27;].includes(map.iconClass) ? &#x27;polite&#x27; : &#x27;assertive&#x27;;
+            toastElement.setAttribute(&#x27;aria-live&#x27;, ariaValue);
+        };
+
+        /**
+         * Set icons on toast
+         */
+        const setIcon &#x3D; () &#x3D;&gt; {
+            if (map.iconClass) {
+                toastElement.classList.add(options.toastClass, iconClass);
+            }
+        };
+
+        /**
+         * Add toaster to container
+         */
+        const setSequence &#x3D; () &#x3D;&gt; {
+            Toastr.containerEl.insertBefore(toastElement, options.newestOnTop ? Toastr.containerEl.firstChild : null);
+        };
+
+        /**
+         * Set title of a toast message
+         */
+        const setTitle &#x3D; () &#x3D;&gt; {
+            if (map.title) {
+                let suffix &#x3D; map.title;
+                if (options.escapeHtml) {
+                    suffix &#x3D; escapeHtml(map.title);
+                }
+                $titleElement.innerHTML +&#x3D; suffix;
+                $titleElement.classList.add(options.titleClass);
+                toastElement.appendChild($titleElement);
+            }
+        };
+
+        /**
+         * Set message of a toast message
+         */
+        const setMessage &#x3D; () &#x3D;&gt; {
+            if (map.message) {
+                let suffix &#x3D; map.message;
+                if (options.escapeHtml) {
+                    suffix &#x3D; escapeHtml(map.message);
+                }
+                $messageElement.innerHTML +&#x3D; suffix;
+                $messageElement.classList.add(options.messageClass);
+                toastElement.appendChild($messageElement);
+            }
+        };
+
+        /**
+         * Set closebutton
+         */
+        const setCloseButton &#x3D; () &#x3D;&gt; {
+            if (options.closeButton) {
+                closeElement.classList.add(options.closeClass);
+                closeElement.setAttribute(&#x27;role&#x27;, &#x27;button&#x27;);
+                toastElement.insertBefore(closeElement, toastElement.firstChild);
+            }
+        };
+
+        /**
+         * Set progressbar
+         */
+        const setProgressBar &#x3D; () &#x3D;&gt; {
+            if (options.progressBar) {
+                progressElement.classList.add(options.progressClass);
+                progressElement.style.setProperty(&#x27;--animate-duration&#x27;, options.timeOut / 1000 + &#x27;s&#x27;);
+                toastElement.insertBefore(progressElement, toastElement.firstChild);
+            }
+        };
+
+        /**
+         * Set RTL
+         */
+        const setRTL &#x3D; () &#x3D;&gt; {
+            if (options.rtl) {
+                toastElement.classList.add(&#x27;rtl&#x27;);
+            }
+        };
+
+        const delayedHideToast &#x3D; () &#x3D;&gt; {
+            if (options.timeOut &gt; 0 || options.extendedTimeOut &gt; 0) {
+                progressElement.classList.remove(options.progressClass);
+                progressElement.style.setProperty(&#x27;--animate-duration&#x27;, options.extendedTimeOut / 1000 + &#x27;s&#x27;);
+                progressElement.style.width &#x3D; &#x27;100%&#x27;;
+                // trigger reflow
+                // tslint:disable-next-line
+                void progressElement.offsetWidth;
+                progressElement.classList.add(options.progressClass);
+            }
+        };
+
+        const stickAround &#x3D; () &#x3D;&gt; {
+            clearTimeout(intervalId);
+        };
+
+        setIcon();
+        setTitle();
+        setMessage();
+        setCloseButton();
+        setProgressBar();
+        setRTL();
+        setSequence();
+        setAria();
+
+        displayToast();
+        handleEvents();
+
+        Toastr.publish(response);
+
+        return toastElement;
+    }
+
+    /**
+     * Get toaster options
+     */
+    private static getOptions(): ToastrSettings {
+        return {
+            ...Toastr.getDefaults(),
+            ...Toastr.options,
+        };
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'ToastrClearOptions.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

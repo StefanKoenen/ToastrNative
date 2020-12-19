@@ -3,7 +3,7 @@
     "files": [
         "lib/"
     ],
-    "main": "lib/toastr-native.js",
+    "main": "toastr-native.js",
     "types": "lib/index.d.ts",
     "scripts": {
         "build:dev": "webpack",
@@ -11,6 +11,7 @@
         "build": "npm run build:dev && npm run build:prod",
         "bundlewatch": "bundlewatch --config .bundlewatch.js",
         "clean": "rimraf lib coverage",
+        "docs": "compodoc -p tsconfig.json --templates ./templates --extTheme ./templates/styles",
         "lint": "tslint \"src/**/*.ts\"",
         "preversion": "npm test -- --single-run",
         "version": "npm run build && git add -A -f lib",
@@ -26,6 +27,7 @@
         "animate.css": "^4.1.0"
     },
     "devDependencies": {
+        "@compodoc/compodoc": "^1.1.11",
         "@types/jasmine": "^3.5.10",
         "bundlewatch": "^0.2.7",
         "css-loader": "^3.5.3",
